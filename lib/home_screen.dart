@@ -17,9 +17,9 @@ class _HomeScreenState extends State<HomeScreen> {
         .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
     var data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
-      //photosList.clear();
       for (Map i in data) {
-        photosList.add(PhotosModel.fromJson(i));
+        PhotosModel photos = PhotosModel(title: i['title'], url: i['url']);
+        photosList.add(photos);
       }
       return photosList;
     } else {
@@ -46,11 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: photosList.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(snapshot.data![index].url.toString()),
+                          leading: const CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              'https://via.placeholder.com/600/810b14'
+                            ),
                           ),
-                          subtitle: Text(snapshot.data![index].title.toString()),
-                          title: Text(snapshot.data![index].id.toString()),
+                          subtitle:
+                              Text(snapshot.data![index].title.toString()),
                         );
                       });
                 }
